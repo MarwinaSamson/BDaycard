@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Jainab 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --pink:   #ffb7c5;
+  --pink2:  #ff85a1;
+  --blue:   #a8d8f0;
+  --blue2:  #5bb8e8;
+  --yellow: #ffe066;
+  --peach:  #ffd6b0;
+  --mint:   #b8f0d8;
+  --mint2:  #5de0a0;
+  --purple: #d4b8f0;
+  --bg:     #fff5f8;
+  --text:   #5a3a4a;
+  --white:  #ffffff;
+}
+
+body{
+  background: var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  min-height:100vh;
+  font-family:'Nunito',sans-serif;
+  overflow:hidden;
+}
+
+/* Soft polka dot bg */
+body::before{
+  content:'';
+  position:fixed; inset:0;
+  background-image: radial-gradient(circle, rgba(255,183,197,0.25) 2px, transparent 2px);
+  background-size: 32px 32px;
+  pointer-events:none;
+}
+
+/* ====== STAGE ====== */
+.stage{
+  width:380px;
+  background: white;
+  border-radius:32px;
+  border: 3px solid var(--pink);
+  box-shadow: 0 8px 0 var(--pink2), 0 20px 60px rgba(255,133,161,0.2);
+  overflow:hidden;
+  position:relative;
+}
+
+/* scene title bar */
+.scene-bar{
+  background: linear-gradient(90deg, var(--pink2), #ff9eb5);
+  padding: 8px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.scene-label{
+  font-family:'Fredoka One',cursive;
+  font-size:14px; color:white; letter-spacing:1px;
+}
+.scene-dots{ display:flex; gap:5px; }
+.sdot{
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(255,255,255,0.4);
+  transition: all 0.3s;
+}
+.sdot.on{ background:white; transform:scale(1.2); }
+
+/* ====== CANVAS AREA ====== */
+.canvas{
+  width:100%; height:420px;
+  position:relative; overflow:hidden;
+}
+
+/* ====== SCENES ====== */
+.scene{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition: opacity 0.5s ease;
+}
+.scene.active{ opacity:1; pointer-events:all; }
+
+/* ====== SHARED SKY/GROUND ====== */
+.sky{
+  position:absolute; top:0; left:0; right:0;
+  height:55%; border-radius:0;
+}
+.ground{
+  position:absolute; bottom:0; left:0; right:0;
+  height:45%;
+}
+
+/* ====== CLOUDS ====== */
+.cloud{
+  position:absolute;
+  background:white;
+  border-radius:99px;
+  opacity:0.85;
+}
+.cloud::before,.cloud::after{
+  content:''; position:absolute;
+  background:white; border-radius:50%;
+}
+
+/* ====== CAPTION BOX ====== */
+.caption{
+  position:absolute; bottom:18px; left:16px; right:16px;
+  background: rgba(255,255,255,0.92);
+  border: 2px solid var(--pink);
+  border-radius:16px; padding:10px 16px;
+  text-align:center;
+  font-size:13.5px; font-weight:700; color:var(--text);
+  line-height:1.5;
+  box-shadow: 0 3px 0 var(--pink);
+  z-index:50;
+}
+.caption em{ font-style:normal; color:var(--pink2); }
+.caption strong{ color:#7c3aed; }
+
+/* ====== SPEECH BUBBLE ====== */
+.speech{
+  position:absolute;
+  background:white;
+  border:2px solid var(--pink);
+  border-radius:14px;
+  padding:7px 12px;
+  font-size:12px; font-weight:800; color:var(--text);
+  white-space:nowrap;
+  box-shadow:0 3px 0 var(--pink);
+  z-index:40;
+}
+.speech::after{
+  content:''; position:absolute;
+  border:7px solid transparent;
+}
+.speech.down::after{
+  bottom:-16px; left:50%; transform:translateX(-50%);
+  border-top-color:var(--pink);
+}
+.speech.down-white::after{
+  content:''; position:absolute;
+  bottom:-13px; left:50%; transform:translateX(-50%);
+  border:6px solid transparent;
+  border-top-color:white;
+  z-index:1;
+}
+.speech.left::after{
+  left:-16px; top:50%; transform:translateY(-50%);
+  border-right-color:var(--pink);
+}
+
+/* ====== CHIBI BASE ====== */
+/* Each chibi is pure CSS SVG-less drawing */
+.chibi{
+  position:absolute;
+  bottom:0;
+  display:flex; flex-direction:column; align-items:center;
+  z-index:20;
+}
+
+/* HEAD */
+.head{
+  width:64px; height:60px;
+  border-radius:50% 50% 45% 45%;
+  position:relative;
+  border:2.5px solid rgba(0,0,0,0.12);
+  overflow:visible;
+}
+/* HAIR */
+.hair-top{
+  position:absolute; top:-12px; left:-4px; right:-4px; height:28px;
+  border-radius:50% 50% 0 0;
+  z-index:2;
+}
+.hair-side{
+  position:absolute; top:0; width:12px; height:24px;
+  border-radius:0 0 8px 8px;
+}
+.hair-side.l{ left:-6px; }
+.hair-side.r{ right:-6px; }
+/* FACE */
+.eye{
+  position:absolute; top:24px;
+  width:10px; height:11px;
+  background:#3d2c2c;
+  border-radius:50%;
+}
+.eye::after{ /* shine */
+  content:''; position:absolute;
+  width:4px; height:4px; background:white;
+  border-radius:50%; top:1px; right:1px;
+}
+.eye.l{ left:12px; }
+.eye.r{ right:12px; }
+.blush{
+  position:absolute; top:32px;
+  width:14px; height:8px;
+  border-radius:50%;
+  opacity:0.55;
+}
+.blush.l{ left:6px; background:#ffb7c5; }
+.blush.r{ right:6px; background:#ffb7c5; }
+.mouth{
+  position:absolute; bottom:10px; left:50%;
+  transform:translateX(-50%);
+  width:14px; height:7px;
+  border:2.5px solid #3d2c2c;
+  border-top:none;
+  border-radius:0 0 10px 10px;
+}
+/* BODY */
+.body{
+  width:48px; height:44px;
+  border-radius:12px 12px 14px 14px;
+  border:2.5px solid rgba(0,0,0,0.12);
+  position:relative;
+  margin-top:-4px;
+  display:flex; align-items:center; justify-content:center;
+}
+/* LEGS */
+.legs{
+  display:flex; gap:6px; margin-top:-2px;
+}
+.leg{
+  width:14px; height:20px;
+  border-radius:6px 6px 8px 8px;
+  border:2.5px solid rgba(0,0,0,0.12);
+}
+/* ARMS */
+.arm{
+  position:absolute; top:8px;
+  width:14px; height:26px;
+  border-radius:7px;
+  border:2.5px solid rgba(0,0,0,0.12);
+}
+.arm.l{ left:-14px; transform:rotate(15deg); }
+.arm.r{ right:-14px; transform:rotate(-15deg); }
+
+/* ====== IT CHIBI (blue theme) ====== */
+.chibi-it .head{ background:#ffe0cc; }
+.chibi-it .hair-top{ background:#4a3728; }
+.chibi-it .hair-side{ background:#4a3728; }
+.chibi-it .body{ background:var(--blue2); }
+.chibi-it .arm{ background:var(--blue2); }
+.chibi-it .leg{ background:#5b7de8; }
+.chibi-it .badge{
+  position:absolute; bottom:2px;
+  font-size:9px; font-weight:900; color:white;
+  background:rgba(0,0,0,0.25); padding:1px 5px; border-radius:4px;
+  letter-spacing:0.5px;
+}
+
+/* ====== NURSE CHIBI (pink theme) ====== */
+.chibi-nurse .head{ background:#ffe0cc; }
+.chibi-nurse .hair-top{ background:#7a4a2a; }
+.chibi-nurse .hair-side{ background:#7a4a2a; }
+.chibi-nurse .body{ background:white; }
+.chibi-nurse .arm{ background:white; }
+.chibi-nurse .leg{ background:#e8e0f0; }
+.chibi-nurse .cross{
+  position:absolute;
+  width:16px; height:16px;
+}
+.chibi-nurse .cross::before,.chibi-nurse .cross::after{
+  content:''; position:absolute; background:#ff4b7a; border-radius:2px;
+}
+.chibi-nurse .cross::before{ width:6px; height:16px; left:5px; top:0; }
+.chibi-nurse .cross::after{ width:16px; height:6px; left:0; top:5px; }
+.chibi-nurse .cap{
+  position:absolute; top:-18px; left:50%; transform:translateX(-50%);
+  width:40px; height:18px;
+  background:white;
+  border:2px solid rgba(0,0,0,0.1);
+  border-radius:6px 6px 0 0;
+  display:flex; align-items:center; justify-content:center;
+}
+.chibi-nurse .cap::after{
+  content:''; width:10px; height:10px;
+  background:transparent;
+  border-left:2px solid #ff4b7a;
+  border-right:2px solid #ff4b7a;
+  position:absolute;
+}
+.chibi-nurse .cap-cross{
+  width:10px; height:10px; position:relative;
+}
+.chibi-nurse .cap-cross::before,.chibi-nurse .cap-cross::after{
+  content:''; position:absolute; background:#ff4b7a; border-radius:1px;
+}
+.chibi-nurse .cap-cross::before{ width:3px; height:10px; left:3.5px; top:0; }
+.chibi-nurse .cap-cross::after{ width:10px; height:3px; left:0; top:3.5px; }
+
+/* ====== LAPTOP PROP ====== */
+.laptop{
+  position:absolute; bottom:62px;
+  width:50px; height:36px;
+}
+.laptop-screen{
+  width:50px; height:32px;
+  background:#1e293b; border-radius:4px 4px 0 0;
+  border:2px solid #334155;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+.code-lines{ display:flex; flex-direction:column; gap:3px; padding:4px; width:100%; }
+.code-line{
+  height:3px; border-radius:2px; opacity:0.8;
+}
+.laptop-base{
+  width:56px; height:4px;
+  background:#334155; border-radius:0 0 3px 3px;
+  margin-left:-3px;
+}
+
+/* ====== BOOK PROP ====== */
+.book{
+  position:absolute; bottom:62px;
+  width:34px; height:42px;
+  background: #ff85a1;
+  border-radius:3px 6px 6px 3px;
+  border:2px solid #e06080;
+  border-left:5px solid #c04060;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:3px;
+}
+.book-line{
+  width:18px; height:2px;
+  background:white; border-radius:2px; opacity:0.7;
+}
+
+/* ====== SCENE SPECIFIC ====== */
+
+/* --- SCENE 1: INTRO --- */
+.s1 .sky{ background:linear-gradient(180deg,#fce4ec 0%,#fff0f5 100%); }
+.s1 .ground{ background:linear-gradient(180deg,#e8f8f0 0%,#d0f0e0 100%); }
+
+/* --- SCENE 2: BUSY SIDE BY SIDE --- */
+.s2 .sky{ background:linear-gradient(180deg,#e8effe 0%,#f5f8ff 100%); }
+.s2 .ground{ background:linear-gradient(180deg,#fff9e6 0%,#fff3cc 100%); }
+
+/* divider */
+.divider-line{
+  position:absolute; left:50%; top:0; bottom:0;
+  width:2px; background:rgba(0,0,0,0.06);
+  border-left:2px dashed rgba(200,180,200,0.4);
+  z-index:5;
+}
+.uni-tag{
+  position:absolute; top:18px;
+  font-family:'Fredoka One',cursive;
+  font-size:11px; padding:4px 10px;
+  border-radius:99px; z-index:10;
+  border:2px solid;
+}
+.uni-it{
+  left:10px; background:rgba(168,216,240,0.4); color:#2980b9;
+  border-color:var(--blue2);
+}
+.uni-nurse{
+  right:10px; background:rgba(255,183,197,0.4); color:#c0395a;
+  border-color:var(--pink2);
+}
+
+/* stress particles */
+.stress{
+  position:absolute; font-size:14px;
+  animation:stressFly 2s ease-out infinite;
+  z-index:30;
+}
+@keyframes stressFly{
+  0%{ transform:translate(0,0) rotate(0deg); opacity:1; }
+  100%{ transform:translate(var(--tx),var(--ty)) rotate(var(--tr)); opacity:0; }
+}
+
+/* --- SCENE 3: WALKING TOWARD EACH OTHER --- */
+.s3 .sky{ background:linear-gradient(180deg,#fef9e7 0%,#fffdf5 100%); }
+.s3 .ground{ background:linear-gradient(180deg,#e8f5e9 0%,#c8ecd8 100%); }
+
+/* path */
+.path{
+  position:absolute; bottom:76px; left:0; right:0; height:6px;
+  background:rgba(200,180,160,0.3); border-radius:99px;
+  border-top:2px dashed rgba(180,160,140,0.4);
+}
+
+/* --- SCENE 4: HUG --- */
+.s4 .sky{ background:linear-gradient(180deg,#fce4ec 0%,#fff5f8 100%); }
+.s4 .ground{ background:linear-gradient(180deg,#fff9c4 0%,#fff3aa 100%); }
+
+.heart-burst{ position:absolute; font-size:16px; animation:heartPop ease-out forwards; opacity:0; z-index:40; }
+@keyframes heartPop{ 0%{transform:scale(0) translate(0,0);opacity:1} 100%{transform:scale(1.4) translate(var(--hx),var(--hy));opacity:0} }
+
+/* --- SCENE 5: BIRTHDAY --- */
+.s5 .sky{ background:linear-gradient(160deg,#fff0f5 0%,#f5e6ff 50%,#e6f0ff 100%); }
+.s5 .ground{ background:linear-gradient(180deg,#fffbe6 0%,#fff5cc 100%); }
+
+.cake-wrap{ position:absolute; bottom:88px; left:50%; transform:translateX(-50%); z-index:25; }
+.cake-body{
+  width:70px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.cake-tier{
+  border-radius:6px;
+  border:2px solid rgba(0,0,0,0.1);
+  position:relative;
+  overflow:visible;
+}
+.tier1{ width:70px; height:28px; background:#ff85a1; }
+.tier2{ width:55px; height:22px; background:#ffb7c5; margin-bottom:-1px; }
+.cake-plate{ width:78px; height:8px; background:#ffe0b2; border-radius:4px; border:2px solid rgba(0,0,0,0.1); }
+.candle{ width:6px; height:18px; background:var(--yellow); border-radius:3px 3px 1px 1px; position:absolute; top:-18px; border:1px solid rgba(0,0,0,0.1); }
+.flame{ width:8px; height:11px; background:#ff9800; border-radius:50% 50% 30% 30%; position:absolute; top:-11px; left:50%; transform:translateX(-50%); animation:flameDance 0.4s ease infinite alternate; }
+.flame::after{ content:''; position:absolute; width:4px; height:6px; background:#ffeb3b; border-radius:50%; top:3px; left:2px; }
+@keyframes flameDance{ from{transform:translateX(-50%) scaleY(1) rotate(-3deg)} to{transform:translateX(-50%) scaleY(1.15) rotate(3deg)} }
+.cake-deco{ position:absolute; font-size:11px; top:50%; transform:translateY(-50%); }
+
+.confetti-piece{
+  position:absolute; border-radius:2px;
+  animation:confettiFall linear forwards;
+  z-index:60;
+}
+@keyframes confettiFall{
+  0%{ transform:translateY(0) rotate(0deg); opacity:1; }
+  100%{ transform:translateY(300px) rotate(720deg); opacity:0; }
+}
+
+.bday-text{
+  position:absolute; top:20px; left:0; right:0;
+  text-align:center; z-index:40;
+}
+.bday-text h1{
+  font-family:'Fredoka One',cursive;
+  font-size:34px; color:var(--pink2);
+  text-shadow:3px 3px 0 rgba(255,133,161,0.3);
+  animation:textBounce 0.6s cubic-bezier(.34,1.56,.64,1) both;
+}
+.bday-text p{
+  font-size:13px; color:var(--text); font-weight:700;
+  margin-top:4px;
+  animation:textBounce 0.6s cubic-bezier(.34,1.56,.64,1) 0.2s both;
+}
+@keyframes textBounce{ from{transform:scale(0) translateY(-20px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+
+/* stars/sparkles */
+.sparkle{ position:absolute; font-size:18px; animation:sparklePop ease-out infinite; z-index:35; }
+@keyframes sparklePop{ 0%,100%{transform:scale(0.6);opacity:0.4} 50%{transform:scale(1.2);opacity:1} }
+
+/* ====== NAV ====== */
+.nav{
+  padding:14px 20px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:white;
+}
+.nav-btn{
+  width:38px; height:38px;
+  border-radius:50%; border:2px solid var(--pink);
+  background:white; cursor:pointer;
+  font-size:16px; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 3px 0 var(--pink);
+  transition:all 0.15s;
+  color:var(--pink2); font-weight:900;
+}
+.nav-btn:hover{ transform:translateY(-2px); box-shadow:0 5px 0 var(--pink); }
+.nav-btn:active{ transform:translateY(2px); box-shadow:0 1px 0 var(--pink); }
+.nav-btn:disabled{ opacity:0.3; cursor:default; }
+
+.nav-progress{
+  display:flex; gap:8px; align-items:center;
+}
+.npip{
+  width:10px; height:10px; border-radius:50%;
+  background:rgba(255,133,161,0.25);
+  border:2px solid rgba(255,133,161,0.3);
+  transition:all 0.3s cubic-bezier(.34,1.56,.64,1);
+  cursor:pointer;
+}
+.npip.active{
+  background:var(--pink2); border-color:var(--pink2);
+  transform:scale(1.3);
+  box-shadow:0 0 0 3px rgba(255,133,161,0.2);
+}
+
+/* ====== ANIMATIONS ====== */
+@keyframes idleFloat{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes idleFloat2{ 0%,100%{transform:translateY(-3px)} 50%{transform:translateY(3px)} }
+@keyframes walkRight{ 0%,100%{transform:translateX(0)} 50%{transform:translateX(3px)} }
+@keyframes walkLeft{ 0%,100%{transform:translateX(0)} 50%{transform:translateX(-3px)} }
+@keyframes headBob{ 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(-4deg)} 75%{transform:rotate(4deg)} }
+@keyframes armSwing{ 0%,100%{transform:rotate(15deg)} 50%{transform:rotate(-5deg)} }
+@keyframes armSwingR{ 0%,100%{transform:rotate(-15deg)} 50%{transform:rotate(5deg)} }
+@keyframes typeAnim{ 0%,100%{transform:rotate(0)} 25%{transform:rotate(-8deg)} 75%{transform:rotate(8deg)} }
+@keyframes hugBounce{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+.float1{ animation:idleFloat 2s ease infinite; }
+.float2{ animation:idleFloat2 2.3s ease infinite; }
+.walk-r .body{ animation:walkRight 0.5s ease infinite; }
+.walk-l .body{ animation:walkLeft 0.5s ease infinite; }
+.bob .head{ animation:headBob 0.5s ease infinite; }
+.hug-pair{ animation:hugBounce 1s ease infinite; }
+
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- SCENE TITLE BAR -->
+  <div class="scene-bar">
+    <div class="scene-label" id="sceneLabel">🌸 Chapter 1</div>
+    <div class="scene-dots" id="sceneDots"></div>
+  </div>
+
+  <!-- CANVAS -->
+  <div class="canvas" id="canvas">
+
+    <!-- ========== SCENE 1: INTRO - TWO FRIENDS ========== -->
+    <div class="scene s1 active" data-i="0">
+      <div class="sky"></div>
+      <div class="ground"></div>
+
+      <!-- clouds -->
+      <div class="cloud" style="width:70px;height:22px;top:28px;left:30px">
+        <div style="position:absolute;width:32px;height:32px;background:white;border-radius:50%;top:-14px;left:8px"></div>
+        <div style="position:absolute;width:24px;height:24px;background:white;border-radius:50%;top:-10px;left:26px"></div>
+      </div>
+      <div class="cloud" style="width:55px;height:18px;top:50px;right:40px">
+        <div style="position:absolute;width:26px;height:26px;background:white;border-radius:50%;top:-12px;left:6px"></div>
+        <div style="position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:-8px;left:22px"></div>
+      </div>
+
+      <!-- speech bubbles -->
+      <div class="speech down" style="top:52px;left:32px;animation:idleFloat 2.5s ease infinite">💻 IT!</div>
+      <div class="speech down" style="top:52px;right:28px;animation:idleFloat2 2.5s ease infinite">🏥 Nurse !</div>
+
+      <!-- IT Chibi -->
+      <div class="chibi chibi-it float1" style="left:48px;bottom:80px">
+        <div class="head">
+          <div class="hair-top"></div>
+          <div class="hair-side l"></div>
+          <div class="hair-side r"></div>
+          <div class="eye l"></div>
+          <div class="eye r"></div>
+          <div class="blush l"></div>
+          <div class="blush r"></div>
+          <div class="mouth"></div>
+        </div>
+        <div class="body">
+          <div class="arm l"></div>
+          <div class="arm r"></div>
+          <div class="badge">IT</div>
+        </div>
+        <div class="legs">
+          <div class="leg"></div>
+          <div class="leg"></div>
+        </div>
+      </div>
+
+      <!-- Nurse Chibi -->
+      <div class="chibi chibi-nurse float2" style="right:48px;bottom:80px">
+        <div class="head">
+          <div class="hair-top"></div>
+          <div class="hair-side l"></div>
+          <div class="hair-side r"></div>
+          <div class="cap"><div class="cap-cross"></div></div>
+          <div class="eye l"></div>
+          <div class="eye r"></div>
+          <div class="blush l"></div>
+          <div class="blush r"></div>
+          <div class="mouth"></div>
+        </div>
+        <div class="body">
+          <div class="arm l"></div>
+          <div class="arm r"></div>
+          <div class="cross"></div>
+        </div>
+        <div class="legs">
+          <div class="leg"></div>
+          <div class="leg"></div>
+        </div>
+      </div>
+
+      <!-- hearts between them -->
+      <div style="position:absolute;bottom:130px;left:50%;transform:translateX(-50%);font-size:22px;animation:idleFloat 1.8s ease infinite">💛</div>
+
+      <div class="caption">Once upon a time, two besties from high school went off to <em>different universities...</em></div>
+    </div>
+
+    <!-- ========== SCENE 2: BUSY LIVES ========== -->
+    <div class="scene s2" data-i="1">
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="divider-line"></div>
+      <div class="uni-tag uni-it">💻 WMSU</div>
+      <div class="uni-tag uni-nurse">🏥 BRENT</div>
+
+      <!-- LEFT: IT student stressed -->
+      <!-- laptop -->
+      <div class="laptop" style="left:52px;bottom:96px;z-index:15">
+        <div class="laptop-screen">
+          <div class="code-lines">
+            <div class="code-line" style="width:90%;background:#38bdf8"></div>
+            <div class="code-line" style="width:65%;background:#4ade80"></div>
+            <div class="code-line" style="width:80%;background:#f472b6"></div>
+            <div class="code-line" style="width:45%;background:#fb923c"></div>
+            <div class="code-line" style="width:70%;background:#38bdf8"></div>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+
+      <div class="chibi chibi-it" style="left:36px;bottom:78px">
+        <div class="head" style="animation:headBob 0.4s ease infinite">
+          <div class="hair-top"></div>
+          <div class="hair-side l"></div>
+          <div class="hair-side r"></div>
+          <div class="eye l" style="height:6px;border-radius:2px"></div><!-- tired eyes -->
+          <div class="eye r" style="height:6px;border-radius:2px"></div>
+          <div class="blush l"></div>
+          <div class="blush r"></div>
+          <!-- sweat drop -->
+          <div style="position:absolute;top:5px;right:-4px;font-size:10px">💦</div>
+          <div class="mouth" style="border-radius:0;height:3px;border-bottom:none;border-top:2.5px solid #3d2c2c;bottom:8px"></div><!-- worried mouth -->
+        </div>
+        <div class="body" style="animation:typeAnim 0.3s ease infinite">
+          <div class="arm l" style="animation:armSwing 0.3s ease infinite"></div>
+          <div class="arm r" style="animation:armSwingR 0.3s ease infinite"></div>
+          <div class="badge">IT</div>
+        </div>
+        <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+      </div>
+
+      <!-- stress particles IT side -->
+      <div class="stress" style="left:30px;top:130px;--tx:-20px;--ty:-40px;--tr:-30deg;animation-delay:0s">😵</div>
+      <div class="stress" style="left:110px;top:150px;--tx:15px;--ty:-35px;--tr:20deg;animation-delay:0.7s">⚠️</div>
+      <div class="stress" style="left:55px;top:100px;--tx:-10px;--ty:-45px;--tr:15deg;animation-delay:1.3s">🐛</div>
+
+      <!-- RIGHT: Nurse student stressed -->
+      <div class="book" style="right:68px;bottom:100px;z-index:15"></div>
+
+      <div class="chibi chibi-nurse" style="right:36px;bottom:78px">
+        <div class="head" style="animation:headBob 0.5s ease infinite 0.2s">
+          <div class="hair-top"></div>
+          <div class="hair-side l"></div>
+          <div class="hair-side r"></div>
+          <div class="cap"><div class="cap-cross"></div></div>
+          <div class="eye l" style="height:5px;border-radius:2px"></div>
+          <div class="eye r" style="height:5px;border-radius:2px"></div>
+          <div class="blush l" style="opacity:0.8"></div>
+          <div class="blush r" style="opacity:0.8"></div>
+          <div style="position:absolute;top:5px;left:-4px;font-size:10px">💦</div>
+          <div class="mouth" style="border-radius:0;height:3px;border-bottom:none;border-top:2.5px solid #3d2c2c;bottom:8px"></div>
+        </div>
+        <div class="body">
+          <div class="arm l" style="animation:armSwing 0.4s ease infinite"></div>
+          <div class="arm r" style="animation:armSwingR 0.4s ease infinite"></div>
+          <div class="cross"></div>
+        </div>
+        <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+      </div>
+
+      <!-- stress particles nurse side -->
+      <div class="stress" style="right:30px;top:120px;--tx:20px;--ty:-40px;--tr:25deg;animation-delay:0.3s">😓</div>
+      <div class="stress" style="right:110px;top:155px;--tx:-15px;--ty:-30px;--tr:-20deg;animation-delay:1s">📋</div>
+      <div class="stress" style="right:55px;top:100px;--tx:10px;--ty:-50px;--tr:10deg;animation-delay:1.6s">💉</div>
+
+      <div class="caption"><em>Months passed.</em> No calls. No texts. Just two people surviving on <strong>pure willpower</strong> 😅</div>
+    </div>
+
+    <!-- ========== SCENE 3: WALKING TOWARD EACH OTHER ========== -->
+    <div class="scene s3" data-i="2">
+      <div class="sky"></div>
+      <div class="ground"></div>
+      <div class="path"></div>
+
+      <!-- clouds -->
+      <div class="cloud" style="width:60px;height:18px;top:35px;left:50px">
+        <div style="position:absolute;width:28px;height:28px;background:white;border-radius:50%;top:-12px;left:6px"></div>
+        <div style="position:absolute;width:22px;height:22px;background:white;border-radius:50%;top:-9px;left:24px"></div>
+      </div>
+
+      <!-- "finally free!" bubble -->
+      <div class="speech down" style="top:55px;left:24px;animation:idleFloat 2s ease infinite">🎉 Free day!!</div>
+      <div class="speech down" style="top:55px;right:20px;animation:idleFloat2 2s ease infinite">Finally!! 😭</div>
+
+      <!-- IT walking right -->
+      <div class="chibi chibi-it walk-r bob" style="left:30px;bottom:78px;animation:walkRight 0.5s ease infinite" id="itWalker">
+        <div class="head">
+          <div class="hair-top"></div>
+          <div class="hair-side l"></div>
+          <div class="hair-side r"></div>
+          <div class="eye l"></div>
+          <div class="eye r"></div>
+          <div class="blush l"></div>
+          <div class="blush r"></div>
+          <div class="mouth"></div>
+        </div>
+        <div class="body">
+          <div class="arm l" style="animation:armSwing 0.5s ease infinite"></div>
+          <div class="arm r" style="animation:armSwingR 0.5s ease infinite"></div>
+          <div class="badge">IT</div>
+        </div>
+        <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="position:absolute;bottom:108px;left:50%;transform:translateX(-50%);font-size:22px;animation:idleFloat 1.5s ease infinite">💛</div>
+
+      <!-- Nurse walking left -->
+      <div class="chibi chibi-nurse walk-l bob" style="right:30px;bottom:78px" id="nurseWalker">
+        <div class="head">
+          <div class="hair-top"></div>
+          <div class="hair-side l"></div>
+          <div class="hair-side r"></div>
+          <div class="cap"><div class="cap-cross"></div></div>
+          <div class="eye l"></div>
+          <div class="eye r"></div>
+          <div class="blush l"></div>
+          <div class="blush r"></div>
+          <div class="mouth"></div>
+        </div>
+        <div class="body">
+          <div class="arm l" style="animation:armSwing 0.5s ease infinite 0.2s"></div>
+          <div class="arm r" style="animation:armSwingR 0.5s ease infinite 0.2s"></div>
+          <div class="cross"></div>
+        </div>
+        <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+      </div>
+
+      <div class="caption">Then one day — <em>a free weekend!</em> They made plans. They finally <strong>met up.</strong> 🌟</div>
+    </div>
+
+    <!-- ========== SCENE 4: HUG / REUNION ========== -->
+    <div class="scene s4" data-i="3">
+      <div class="sky"></div>
+      <div class="ground"></div>
+
+      <!-- sparkles -->
+      <div class="sparkle" style="top:30px;left:40px;animation-delay:0s">✨</div>
+      <div class="sparkle" style="top:55px;right:45px;animation-delay:0.4s">⭐</div>
+      <div class="sparkle" style="top:20px;left:160px;animation-delay:0.8s">💫</div>
+      <div class="sparkle" style="top:80px;right:70px;animation-delay:0.2s">✨</div>
+
+      <!-- heart burst -->
+      <div class="heart-burst" style="left:160px;top:80px;--hx:-50px;--hy:-60px;animation-duration:1.2s;animation-delay:0.2s;animation-iteration-count:infinite">💛</div>
+      <div class="heart-burst" style="left:190px;top:90px;--hx:45px;--hy:-55px;animation-duration:1.4s;animation-delay:0.6s;animation-iteration-count:infinite">💖</div>
+      <div class="heart-burst" style="left:175px;top:70px;--hx:10px;--hy:-70px;animation-duration:1.1s;animation-delay:1s;animation-iteration-count:infinite">💕</div>
+      <div class="heart-burst" style="left:155px;top:100px;--hx:-40px;--hy:-40px;animation-duration:1.3s;animation-delay:0.4s;animation-iteration-count:infinite">⭐</div>
+
+      <!-- HUGGING PAIR in center -->
+      <div class="hug-pair" style="position:absolute;bottom:80px;left:50%;transform:translateX(-50%);display:flex;align-items:flex-end;gap:-8px">
+        <!-- IT chibi leaning right -->
+        <div class="chibi chibi-it" style="position:relative;left:10px;bottom:0">
+          <div class="head">
+            <div class="hair-top"></div>
+            <div class="hair-side l"></div>
+            <div class="hair-side r"></div>
+            <div class="eye l" style="transform:scaleY(0.4);top:26px"></div><!-- happy squint -->
+            <div class="eye r" style="transform:scaleY(0.4);top:26px"></div>
+            <div class="blush l" style="opacity:0.9"></div>
+            <div class="blush r" style="opacity:0.9"></div>
+            <div class="mouth" style="width:20px;height:10px"></div><!-- big smile -->
+          </div>
+          <div class="body" style="transform:rotate(-5deg)">
+            <div class="arm l" style="transform:rotate(-30deg) translateX(-2px)"></div>
+            <div class="arm r" style="transform:rotate(-60deg) translateX(8px);top:4px;right:-18px"></div><!-- hugging arm -->
+            <div class="badge">IT</div>
+          </div>
+          <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+        </div>
+
+        <!-- Nurse chibi leaning left -->
+        <div class="chibi chibi-nurse" style="position:relative;right:10px;bottom:0">
+          <div class="head">
+            <div class="hair-top"></div>
+            <div class="hair-side l"></div>
+            <div class="hair-side r"></div>
+            <div class="cap"><div class="cap-cross"></div></div>
+            <div class="eye l" style="transform:scaleY(0.4);top:26px"></div>
+            <div class="eye r" style="transform:scaleY(0.4);top:26px"></div>
+            <div class="blush l" style="opacity:0.9"></div>
+            <div class="blush r" style="opacity:0.9"></div>
+            <div class="mouth" style="width:20px;height:10px"></div>
+          </div>
+          <div class="body" style="transform:rotate(5deg)">
+            <div class="arm l" style="transform:rotate(60deg) translateX(-8px);top:4px;left:-18px"></div><!-- hugging arm -->
+            <div class="arm r" style="transform:rotate(30deg) translateX(2px)"></div>
+            <div class="cross"></div>
+          </div>
+          <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+        </div>
+      </div>
+
+      <div class="caption"><em>"Months of silence?"</em> Didn't matter. One second together and it was <strong>exactly the same. 🥹</strong></div>
+    </div>
+
+    <!-- ========== SCENE 5: BIRTHDAY ========== -->
+    <div class="scene s5" data-i="4">
+      <div class="sky"></div>
+      <div class="ground"></div>
+
+      <div class="bday-text">
+        <h1>🎂 Happy Birthday!</h1>
+        <p>Jainab · Turning 23 · Still the best 💛</p>
+      </div>
+
+      <!-- confetti will be spawned by JS -->
+      <div id="confettiContainer" style="position:absolute;inset:0;pointer-events:none;z-index:60"></div>
+
+      <!-- Cake -->
+      <div class="cake-wrap">
+        <div class="cake-body">
+          <div class="cake-tier tier2">
+            <div class="candle" style="left:12px"><div class="flame"></div></div>
+            <div class="candle" style="left:50%;transform:translateX(-50%)"><div class="flame"></div></div>
+            <div class="candle" style="right:12px"><div class="flame"></div></div>
+          </div>
+          <div class="cake-tier tier1">
+            <div class="cake-deco" style="left:8px">🌸</div>
+            <div class="cake-deco" style="right:8px">⭐</div>
+          </div>
+          <div class="cake-plate"></div>
+        </div>
+      </div>
+
+      <!-- Two chibis on either side of cake -->
+      <div class="chibi chibi-it float1" style="left:24px;bottom:78px">
+        <div class="head">
+          <div class="hair-top"></div>
+          <div class="hair-side l"></div>
+          <div class="hair-side r"></div>
+          <div class="eye l" style="transform:scaleY(0.4);top:26px"></div>
+          <div class="eye r" style="transform:scaleY(0.4);top:26px"></div>
+          <div class="blush l" style="opacity:0.9"></div>
+          <div class="blush r" style="opacity:0.9"></div>
+          <div class="mouth" style="width:18px;height:9px"></div>
+        </div>
+        <div class="body">
+          <div class="arm l"></div>
+          <div class="arm r" style="transform:rotate(-80deg);top:2px;right:-20px"></div><!-- raised arm -->
+          <div class="badge">IT</div>
+        </div>
+        <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+      </div>
+
+      <div class="chibi chibi-nurse float2" style="right:24px;bottom:78px">
+        <div class="head">
+          <div class="hair-top"></div>
+          <div class="hair-side l"></div>
+          <div class="hair-side r"></div>
+          <div class="cap"><div class="cap-cross"></div></div>
+          <div class="eye l" style="transform:scaleY(0.4);top:26px"></div>
+          <div class="eye r" style="transform:scaleY(0.4);top:26px"></div>
+          <div class="blush l" style="opacity:0.9"></div>
+          <div class="blush r" style="opacity:0.9"></div>
+          <div class="mouth" style="width:18px;height:9px"></div>
+        </div>
+        <div class="body">
+          <div class="arm l" style="transform:rotate(80deg);top:2px;left:-20px"></div><!-- raised arm -->
+          <div class="arm r"></div>
+          <div class="cross"></div>
+        </div>
+        <div class="legs"><div class="leg"></div><div class="leg"></div></div>
+      </div>
+
+      <!-- speech bubbles from characters -->
+      <div class="speech" style="bottom:170px;left:10px;font-size:11px;animation:idleFloat 2s ease infinite">🎉 SURPRISE!!</div>
+      <div class="speech" style="bottom:170px;right:8px;font-size:11px;animation:idleFloat2 2s ease infinite">We love you!! 💛</div>
+
+      <div class="caption" style="bottom:10px">
+        Distance? Different schools? Busy schedules? <em>Nothing can break this.</em> <strong>Happy Birthday, Jainab! 🎂✨</strong>
+      </div>
+    </div>
+
+  </div><!-- /canvas -->
+
+  <!-- PROGRESS BAR STRIP -->
+  <div id="progressStrip" style="height:5px;background:rgba(255,183,197,0.2);position:relative;overflow:hidden;">
+    <div id="progressFill" style="height:100%;width:0%;background:linear-gradient(90deg,#ff85a1,#ffb7c5);transition:none;border-radius:0 3px 3px 0;"></div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <button class="nav-btn" id="prevBtn" disabled>◀</button>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div class="nav-progress" id="navProgress"></div>
+      <div id="pauseHint" style="font-size:10px;color:#cca0b0;font-weight:700;letter-spacing:1px;text-transform:uppercase;height:14px;"></div>
+    </div>
+    <button class="nav-btn" id="nextBtn">▶</button>
+  </div>
+
+</div><!-- /stage -->
+
+<script>
+const TOTAL = 5;
+const DURATION = 5000; // ms per scene
+const LABELS = [
+  '🌸 Chapter 1 · Two Friends',
+  '😵 Chapter 2 · Busy Era',
+  '🚶 Chapter 3 · The Walk',
+  '🤗 Chapter 4 · Reunion',
+  '🎂 Chapter 5 · Birthday!',
+];
+let cur = 0;
+let paused = false;
+let fillInterval = null;
+let fillPct = 0;
+
+// Build nav pips
+const navProg = document.getElementById('navProgress');
+for(let i=0;i<TOTAL;i++){
+  const p = document.createElement('div');
+  p.className = 'npip' + (i===0?' active':'');
+  p.addEventListener('click',()=>{ manualGoTo(i); });
+  navProg.appendChild(p);
+}
+
+// Build scene dots
+const dotsEl = document.getElementById('sceneDots');
+for(let i=0;i<TOTAL;i++){
+  const d = document.createElement('div');
+  d.className = 'sdot' + (i===0?' on':'');
+  dotsEl.appendChild(d);
+}
+
+function updateUI(){
+  document.getElementById('sceneLabel').textContent = LABELS[cur];
+  document.querySelectorAll('.npip').forEach((p,i)=>p.classList.toggle('active',i===cur));
+  document.querySelectorAll('.sdot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  document.getElementById('prevBtn').disabled = cur===0;
+  document.getElementById('nextBtn').disabled = cur===TOTAL-1;
+}
+
+function startFill(){
+  if(fillInterval) clearInterval(fillInterval);
+  fillPct = 0;
+  const fill = document.getElementById('progressFill');
+  fill.style.width = '0%';
+  // last scene — no auto advance
+  if(cur === TOTAL-1){ fill.style.width='100%'; return; }
+  const step = 100 / (DURATION / 50);
+  fillInterval = setInterval(()=>{
+    if(paused) return;
+    fillPct = Math.min(100, fillPct + step);
+    fill.style.width = fillPct + '%';
+    if(fillPct >= 100){
+      clearInterval(fillInterval);
+      goTo(cur + 1);
+    }
+  }, 50);
+}
+
+function goTo(next){
+  if(next < 0 || next >= TOTAL) return;
+  document.querySelectorAll('.scene')[cur].classList.remove('active');
+  cur = next;
+  document.querySelectorAll('.scene')[cur].classList.add('active');
+  updateUI();
+  if(cur === 2) setTimeout(animateWalkers, 300);
+  if(cur === 4) spawnConfetti();
+  startFill();
+}
+
+function manualGoTo(next){
+  paused = false;
+  setPauseHint(false);
+  goTo(next);
+}
+
+function togglePause(){
+  paused = !paused;
+  setPauseHint(paused);
+}
+
+function setPauseHint(isPaused){
+  document.getElementById('pauseHint').textContent = isPaused ? '⏸ paused — tap to resume' : '';
+}
+
+// Buttons
+document.getElementById('prevBtn').addEventListener('click',()=>manualGoTo(cur-1));
+document.getElementById('nextBtn').addEventListener('click',()=>manualGoTo(cur+1));
+
+// Tap canvas = pause/resume
+document.querySelector('.canvas').addEventListener('click',()=>{
+  if(cur === TOTAL-1) return; // don't pause on last
+  togglePause();
+});
+
+// Keyboard
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){ paused=false; setPauseHint(false); goTo(cur+1); }
+  if(e.key==='ArrowLeft'){ paused=false; setPauseHint(false); goTo(cur-1); }
+  if(e.key==='p'||e.key==='P') togglePause();
+});
+
+// Touch swipe
+let tx=0;
+document.querySelector('.canvas').addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+document.querySelector('.canvas').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>40){
+    paused=false; setPauseHint(false);
+    if(dx<0) goTo(cur+1);
+    else goTo(cur-1);
+  } else {
+    // small tap = pause/resume
+    if(cur!==TOTAL-1) togglePause();
+  }
+});
+
+// Walking animation on scene 3
+function animateWalkers(){
+  const it = document.getElementById('itWalker');
+  const nurse = document.getElementById('nurseWalker');
+  if(!it||!nurse) return;
+  let pos = 0;
+  const interval = setInterval(()=>{
+    pos++;
+    it.style.left = (30 + pos*1.5) + 'px';
+    nurse.style.right = (30 + pos*1.5) + 'px';
+    if(pos>40) clearInterval(interval);
+  },60);
+}
+
+// Confetti
+function spawnConfetti(){
+  const c = document.getElementById('confettiContainer');
+  c.innerHTML='';
+  const colors=['#ffb7c5','#a8d8f0','#ffe066','#b8f0d8','#d4b8f0','#ff85a1','#5bb8e8'];
+  for(let i=0;i<55;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.width=(6+Math.random()*8)+'px';
+    p.style.height=(6+Math.random()*8)+'px';
+    p.style.left=Math.random()*100+'%';
+    p.style.top='-10px';
+    p.style.background=colors[Math.floor(Math.random()*colors.length)];
+    p.style.animationDuration=(1.5+Math.random()*2)+'s';
+    p.style.animationDelay=(Math.random()*1.5)+'s';
+    p.style.borderRadius=Math.random()>0.5?'50%':'3px';
+    c.appendChild(p);
+  }
+}
+
+// Start!
+updateUI();
+startFill();
+</script>
+</body>
+</html>
